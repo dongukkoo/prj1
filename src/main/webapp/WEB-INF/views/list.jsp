@@ -12,6 +12,9 @@
 <body>
 	<div class="container-lg">
 		<h1>게시물 목록 보기</h1>
+		<div>
+			<a class="btn btn-secondary" href="/add">추가하기</a>
+		</div>
 		<!--  table.table>thead>tr>th*4^^tbody-->
 		<table class="table">
 			<thead>

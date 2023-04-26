@@ -78,7 +78,29 @@ public class BoardController {
 			return "redirect:/id/" + id ;
 		}
 	}
+	
+	@GetMapping("add")
+	public void addForm( Model model) {
+		// 게시물 작성 form (view)로 포워드
+		model.addAttribute("add", model);
+		
+	}
+	
+	@PostMapping("add")
+	public void addProcess(Board board) {
+		// 새 게시물 db에 추가
+		service.add(board);
+	
+	}
+	
 }
+
+
+
+
+
+
+
 
 
 
