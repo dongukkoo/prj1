@@ -23,12 +23,18 @@ public class BoardController {
 	// 게시물 목록
 //	@RequestMapping(value = {"/", "list"}, method = RequestMethod.GET)
 	@GetMapping({ "/", "list" })
-	public String list(Model model) {
+	public String list(Model model,
+			@RequestParam(value = "page", defaultValue = "1") Integer page,
+			@RequestParam(value = "search", defaultValue = "") String search) {
 		// 1. request param 수집/가공
 		// 2. business logic 처리
-		List<Board> list = service.listBoard();
+		// List<Board> list = service.listBoard(); // 페이지 처리 전
+		Map<String, Object> result = service.listBoard(page, search); // 페이지 처리
+		
 		// 3. add attribute
-		model.addAttribute("boardList", list);
+//		model.addAttribute("boardList", result.get("boardList"));
+//		model.addAttribute("pageInfo", result.get("pageInfo"));
+		model.addAllAttributes(result);
 
 		// 4. forward/redirect
 		return "list";
@@ -50,13 +56,13 @@ public class BoardController {
 		model.addAttribute("board", service.getBoard(id));
 		return "modify";
 	}
-	
+
 //	@RequestMapping(value = "/modify/{id}", method = RequestMethod.POST)
 	@PostMapping("/modify/{id}")
 	public String modifyProcess(Board board, RedirectAttributes rttr) {
-		
+
 		boolean ok = service.modify(board);
-		
+
 		if (ok) {
 			// 해당 게시물 보기로 리디렉션
 //			rttr.addAttribute("success", "success");
@@ -69,28 +75,28 @@ public class BoardController {
 			return "redirect:/modify/" + board.getId();
 		}
 	}
-	
+
 	@PostMapping("remove")
 	public String remove(Integer id, RedirectAttributes rttr) {
 		boolean ok = service.remove(id);
 		if (ok) {
 			// query string에 추가
 //			rttr.addAttribute("success", "remove");
-			
+
 			// 모델에 추가
 			rttr.addFlashAttribute("message", id + "번 게시물이 삭제되었습니다.");
-			
+
 			return "redirect:/list";
 		} else {
 			return "redirect:/id/" + id;
 		}
 	}
-	
+
 	@GetMapping("add")
 	public void addForm() {
 		// 게시물 작성 form (view)로 포워드
 	}
-	
+
 	@PostMapping("add")
 	public String addProcess(Board board, RedirectAttributes rttr) {
 		// 새 게시물 db에 추가
@@ -109,8 +115,3 @@ public class BoardController {
 		}
 	}
 }
-
-
-
-
-
