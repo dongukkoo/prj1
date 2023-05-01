@@ -47,47 +47,41 @@
 		<div class="row">
 			<nav aria-label="Page navigation example">
 				<ul class="pagination justify-content-center">
-
+				
+				<!-- 맨앞 버튼 -->
+					<c:if test="${pageInfo.currentPageNum gt 1 }">
+						<my:pageItem pageNum="${page=1 }" >
+						<i class="fa-solid fa-backward"></i>
+						</my:pageItem>
+					</c:if>
+						
 					<!-- 이전 버튼 -->
 					<c:if test="${pageInfo.currentPageNum gt 1 }">
-						<c:url value="/list" var="pageLink">
-							<c:param name="page" value="${pageInfo.currentPageNum - 1 }" />
-							<c:if test="${not empty param.search }">
-								<c:param name="search" value="${param.search }" />
-							</c:if>
-						</c:url>
-						<li class="page-item">
-							<a class="page-link" href="${pageLink }">
-								<i class="fa-solid fa-angle-left"></i>
-							</a>
-						</li>
+						<my:pageItem pageNum = "${pageInfo.currentPageNum - 1 }">
+							<i class="fa-solid fa-caret-left"></i>
+						</my:pageItem>
 					</c:if>
 
 					<c:forEach begin="${pageInfo.leftPageNum }" end="${pageInfo.rightPageNum }" var="pageNum">
-						<c:url value="/list" var="pageLink">
-							<c:param name="page" value="${pageNum }" />
-							<c:if test="${not empty param.search }">
-								<c:param name="search" value="${param.search }" />
-							</c:if>
-						</c:url>
-						<li class="page-item">
-							<a class="page-link ${pageNum eq pageInfo.currentPageNum ? 'active' : '' }" href="${pageLink }">${pageNum }</a>
-						</li>
+						<my:pageItem pageNum="${pageNum }">
+								${pageNum }
+						</my:pageItem>
 					</c:forEach>
 
 					<!-- 다음 버튼 -->
 					<c:if test="${pageInfo.currentPageNum lt pageInfo.lastPageNum }">
-						<c:url value="/list" var="pageLink">
-							<c:param name="page" value="${pageInfo.currentPageNum + 1 }" />
-							<c:if test="${not empty param.search }">
-								<c:param name="search" value="${param.search }" />
-							</c:if>
-						</c:url>
-						<li class="page-item">
-							<a class="page-link" href="${pageLink }">
-								<i class="fa-solid fa-angle-right"></i>
-							</a>
-						</li>
+						<my:pageItem pageNum="${pageInfo.currentPageNum + 1 }">
+							<i class="fa-solid fa-caret-right"></i>
+						</my:pageItem>
+					
+						
+					</c:if>
+					
+						<!-- 맨뒤 버튼 -->
+					<c:if test="${pageInfo.currentPageNum lt pageInfo.lastPageNum }">
+						<my:pageItem pageNum="${page = pageInfo.lastPageNum }" >
+							<i class="fa-solid fa-forward"></i>
+						</my:pageItem>
 					</c:if>
 
 				</ul>
