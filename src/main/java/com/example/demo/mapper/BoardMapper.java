@@ -21,10 +21,17 @@ public interface BoardMapper {
 	List<Board> selectAll();
 
 	@Select("""
-			SELECT *
-			FROM Board
-			WHERE id = #{id}
+			SELECT 
+				b.id,
+				b.title,
+				b.body,
+				b.inserted,
+				b.writer,
+				f.fileName
+			FROM Board b LEFT JOIN FileName f ON b.id = f.boardId
+			WHERE b.id = #{id}
 			""")
+	@ResultMap("boardResultMap")
 	Board selectById(Integer id);
 
 	@Update("""
@@ -55,11 +62,13 @@ public interface BoardMapper {
 			<script>
 			<bind name="pattern" value="'%' + search + '%'" />
 			SELECT
-				id,
-				title,
-				writer,
-				inserted
-			FROM Board
+				b.id,
+				b.title,
+				b.writer,
+				b.inserted,
+				COUNT(f.id) fileCount
+			FROM Board b LEFT JOIN FileName f ON b.id = f.boardId
+			
 			<where> 
 					<if test="(type eq 'all') or (type eq 'title')">
 				   title  LIKE #{pattern}
@@ -73,7 +82,9 @@ public interface BoardMapper {
 				
 				</if>
 			</where>
-			ORDER BY id DESC
+			
+			GROUP BY b.id
+			ORDER BY b.id DESC
 			LIMIT #{startIndex}, #{rowPerPage}
 			</script>
 			""")
@@ -100,6 +111,15 @@ public interface BoardMapper {
 			</script>
 			""")
 	Integer countAll(String search, String type);
+	
+	@Select("""
+			INSERT INTO FileName (boardId, fileName)
+			VALUES (#{boardId}, #{fileName})
+			""")
+	Integer insertFileName(Integer boardId, String fileName);
+
+	
+	
 	
 
 	
