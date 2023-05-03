@@ -61,9 +61,13 @@ public class BoardController {
 
 //	@RequestMapping(value = "/modify/{id}", method = RequestMethod.POST)
 	@PostMapping("/modify/{id}")
-	public String modifyProcess(Board board, RedirectAttributes rttr) {
+	public String modifyProcess(Board board,
+			@RequestParam(value="files", required = false) MultipartFile[] addFiles,
+			@RequestParam(value = "removeFiles", required = false) List<String> removeFileNames,
+			RedirectAttributes rttr) throws Exception {
+		
 
-		boolean ok = service.modify(board);
+		boolean ok = service.modify(board, removeFileNames, addFiles);
 
 		if (ok) {
 			// 해당 게시물 보기로 리디렉션
