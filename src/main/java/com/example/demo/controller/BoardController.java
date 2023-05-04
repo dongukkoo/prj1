@@ -122,4 +122,6 @@ public class BoardController {
 			return "redirect:/add";
 		}
 	}
+	
+	
 }
