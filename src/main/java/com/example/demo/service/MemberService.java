@@ -18,9 +18,13 @@ public class MemberService {
 	private MemberMapper mapper;
 	
 	@Autowired
+	private BoardService boardService;
+	
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	public boolean signup(Member member) {
+		
 		// 암호 암호화
 		String plain = member.getPassword();
 		member.setPassword(passwordEncoder.encode(plain));
@@ -28,15 +32,14 @@ public class MemberService {
 		int cnt = mapper.insert(member);
 		return cnt == 1;
 	}
-	
-	public List<Member> listMember(){
-		
+
+	public List<Member> listMember() {
 		
 		return mapper.selectAll();
+		
 	}
 
 	public Member get(String id) {
-		
 		return mapper.selectById(id);
 	}
 
@@ -46,40 +49,39 @@ public class MemberService {
 		
 		if (passwordEncoder.matches(member.getPassword(), oldMember.getPassword())) {
 			// 암호가 같으면?
-			cnt = mapper.deleteById(member.getId());			
-		} 
-			// 암호가 같지 않으면?
 			
-			return cnt == 1;
+			// 이 회원이 작성한 게시물 row 삭제
+			boardService.removeByWriter(member.getId());
+			
+			// 회원 테이블 삭제
+			cnt = mapper.deleteById(member.getId());
+		}
 		
-		
+		return cnt == 1;
 	}
 
 	public boolean modify(Member member, String oldPassword) {
 		
 		// 패스워드를 바꾸기 위해 입력했다면...
-		if(!member.getPassword().isBlank()) {
+		if (!member.getPassword().isBlank()) {
 			
 			// 입력된 패스워드를 암호화
 			String plain = member.getPassword();
 			member.setPassword(passwordEncoder.encode(plain));
 		}
-		Member oldMember = mapper.selectById(member.getId());
 		
+		Member oldMember = mapper.selectById(member.getId());
+
 		int cnt = 0;
-		if(passwordEncoder.matches(oldPassword, oldMember.getPassword())) {
-			// 기존 암호화 같으면
+		
+		if (passwordEncoder.matches(oldPassword, oldMember.getPassword())) {
+			// 기존 암호와 같으면
 			cnt = mapper.update(member);
 		}
 		
 		return cnt == 1;
 	}
 }
-
-
-
-
-
 
 
 

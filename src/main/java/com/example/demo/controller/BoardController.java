@@ -34,7 +34,7 @@ public class BoardController {
 		// 2. business logic 처리
 		// List<Board> list = service.listBoard(); // 페이지 처리 전
 		Map<String, Object> result = service.listBoard(page, search, type); // 페이지 처리
-		
+
 		// 3. add attribute
 //		model.addAttribute("boardList", result.get("boardList"));
 //		model.addAttribute("pageInfo", result.get("pageInfo"));
@@ -66,14 +66,13 @@ public class BoardController {
 	@PostMapping("/modify/{id}")
 	@PreAuthorize("isAuthenticated() and @customSecurityChecker.checkBoardWriter(authentication, #board.id)")
 	
-	// 수정하려는 게시물 id : board.getId
+	// 수정하려는 게시물 id : board.id
 	public String modifyProcess(Board board,
-			@RequestParam(value="files", required = false) MultipartFile[] addFiles,
+			@RequestParam(value = "files", required = false) MultipartFile[] addFiles,
 			@RequestParam(value = "removeFiles", required = false) List<String> removeFileNames,
 			RedirectAttributes rttr) throws Exception {
 		
-
-		boolean ok = service.modify(board, removeFileNames, addFiles);
+		boolean ok = service.modify(board, addFiles, removeFileNames);
 
 		if (ok) {
 			// 해당 게시물 보기로 리디렉션
@@ -116,8 +115,7 @@ public class BoardController {
 	public String addProcess(
 			@RequestParam("files") MultipartFile[] files,
 			Board board, RedirectAttributes rttr,
-			Authentication authentication
-			) throws Exception {
+			Authentication authentication) throws Exception {
 		// 새 게시물 db에 추가
 		// 1.
 		// 2.
@@ -134,6 +132,4 @@ public class BoardController {
 			return "redirect:/add";
 		}
 	}
-	
-	
 }

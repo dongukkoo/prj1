@@ -16,17 +16,18 @@ public interface MemberMapper {
 	int insert(Member member);
 
 	@Select("""
-			SELECT
-				id, password, nickName, email, inserted
+			SELECT *
 			FROM Member
 			ORDER BY inserted DESC
 			""")
 	List<Member> selectAll();
 
 	@Select("""
-			SELECT * FROM Member
-			WHERE id = #{id}			
+			SELECT *
+			FROM Member m LEFT JOIN MemberAuthority ma ON m.id = ma.memberId
+			WHERE id = #{id}
 			""")
+	@ResultMap("memberMap")
 	Member selectById(String id);
 
 	@Delete("""
@@ -44,15 +45,14 @@ public interface MemberMapper {
 				password = #{password},
 				</if>
 				
-				nickName = #{nickName},
-				email = #{email}
+			    nickName = #{nickName},
+			    email = #{email}
 			WHERE
 				id = #{id}
-				
+			
 			</script>
 			""")
 	Integer update(Member member);
-	
 }
 
 

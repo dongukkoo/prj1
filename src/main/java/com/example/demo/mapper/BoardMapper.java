@@ -68,17 +68,15 @@ public interface BoardMapper {
 				COUNT(f.id) fileCount
 			FROM Board b LEFT JOIN FileName f ON b.id = f.boardId
 			
-			<where> 
-					<if test="(type eq 'all') or (type eq 'title')">
+			<where>
+				<if test="(type eq 'all') or (type eq 'title')">
 				   title  LIKE #{pattern}
-				   	</if>
-				  	<if test="(type eq 'all') or (type eq 'body')">
-					OR body   LIKE #{pattern}
-					</if>
-				   
-				   <if test="(type eq 'all') or (type eq 'writer')">
-				   	OR writer LIKE #{pattern}
-				
+				</if>
+				<if test="(type eq 'all') or (type eq 'body')">
+				OR body   LIKE #{pattern}
+				</if>
+				<if test="(type eq 'all') or (type eq 'writer')">
+				OR writer LIKE #{pattern}
 				</if>
 			</where>
 			
@@ -94,24 +92,24 @@ public interface BoardMapper {
 			<bind name="pattern" value="'%' + search + '%'" />
 			SELECT COUNT(*) 
 			FROM Board
-			<where> 
-					<if test="(type eq 'all') or (type eq 'title')">
+			
+			<where>
+				<if test="(type eq 'all') or (type eq 'title')">
 				   title  LIKE #{pattern}
-				   	</if>
-				  	<if test="(type eq 'all') or (type eq 'body')">
-					OR body   LIKE #{pattern}
-					</if>
-				   
-				   <if test="(type eq 'all') or (type eq 'writer')">
-				   	OR writer LIKE #{pattern}
-				
+				</if>
+				<if test="(type eq 'all') or (type eq 'body')">
+				OR body   LIKE #{pattern}
+				</if>
+				<if test="(type eq 'all') or (type eq 'writer')">
+				OR writer LIKE #{pattern}
 				</if>
 			</where>
+			
 			</script>
 			""")
 	Integer countAll(String search, String type);
-	
-	@Select("""
+
+	@Insert("""
 			INSERT INTO FileName (boardId, fileName)
 			VALUES (#{boardId}, #{fileName})
 			""")
@@ -121,35 +119,32 @@ public interface BoardMapper {
 			SELECT fileName FROM FileName
 			WHERE boardId = #{boardId}
 			""")
-	List<String> selectFileNameByBoardId(Integer id);
+	List<String> selectFileNamesByBoardId(Integer boardId);
 
 	@Delete("""
-			DELETE FROM FileName
-			WHERE BoardId = #{boardId}
-			""")
-	void deleteFileNameByBoardId(Integer id);
-
-	@Delete("""
-			DELETE FROM FileName
+			DELETE FROM FileName 
 			WHERE boardId = #{boardId}
-			AND fileName = #{fileName}
 			""")
+	void deleteFileNameByBoardId(Integer boardId);
+
+	@Delete("""
+			DELETE FROM FileName
+			WHERE 	boardId = #{boardId} 
+				AND fileName = #{fileName}
+			""")
+
 	void deleteFileNameByBoardIdAndFileName(Integer boardId, String fileName);
 
-	
-
-	
+	@Select("""
+			SELECT id
+			FROM Board
+			WHERE writer = #{writer}
+			""")
+	List<Integer> selectIdByWriter(String writer);
 	
 
 	
 }
-
-
-
-
-
-
-
 
 
 
