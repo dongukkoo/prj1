@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.security.access.prepost.*;
+import org.springframework.security.core.*;
 import org.springframework.stereotype.*;
 import org.springframework.ui.*;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,6 @@ import org.springframework.web.servlet.mvc.support.*;
 import com.example.demo.domain.*;
 import com.example.demo.service.*;
 
-import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 
 @Controller
@@ -21,6 +21,29 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService service;
+	
+	@GetMapping("checkEmail/{email}")
+	@ResponseBody
+	public Map<String, Object> checkEmail(
+			@PathVariable("email") String email,
+			Authentication authentication) {
+		return service.checkEmail(email, authentication);
+	}
+	
+	@GetMapping("checkNickName/{nickName}")
+	@ResponseBody
+	public Map<String, Object> checkNickName(
+			@PathVariable("nickName") String nickName,
+			Authentication authentication) {
+		return service.checkNickName(nickName, authentication);
+	}
+	
+	@GetMapping("checkId/{id}")
+	@ResponseBody
+	public Map<String, Object> checkId(@PathVariable("id") String id) {
+		
+		return service.checkId(id);
+	}
 
 	@GetMapping("signup")
 	@PreAuthorize("isAnonymous()")

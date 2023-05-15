@@ -28,37 +28,60 @@
 					</div>
 					<div class="mb-3">
 						<label class="form-label" for="inputPassword"> 패스워드 </label>
-						<input id="inputPassword" class="form-control" type="text" value="" />
-						<div class="form-text">
-							입력하지 않으면 기존 패스원드를 유지합니다.
-						</div>
+						<input id="inputPassword" class="form-control" type="text" name="password" value="" />
+						<div class="form-text">입력하지 않으면 기존 패스워드를 유지합니다.</div>
 					</div>
+
 					<div class="mb-3">
 						<label class="form-label" for="inputPasswordCheck"> 패스워드 확인 </label>
-						<input id="inputPasswordCheck" class="form-control" type="text" name="password" value="" />
+						<input id="inputPasswordCheck" class="form-control" type="text" value="" />
 						<div id="passwordSuccessText" class="d-none form-text text-primary">
-						<i class="fa-solid fa-check"></i>
+							<i class="fa-solid fa-check"></i>
 							패스워드가 일치 합니다.
 						</div>
-						
+
 						<div id="passwordFailText" class="d-none form-text text-danger">
-						<i class="fa-solid fa-circle-exclamation"></i>
+							<i class="fa-solid fa-triangle-exclamation"></i>
 							패스워드가 일치하지 않습니다.
 						</div>
 					</div>
-					
-			
-					
+
 					<div class="mb-3">
 						<label class="form-label" for="inputNickName"> 별명 </label>
-						<input id="inputNickName" class="form-control" type="text" name="nickName" value="${member.nickName }" />
+						<div class="input-group">
+							<input id="inputNickName" class="form-control" type="text" name="nickName" value="${member.nickName }" />
+							<button class="btn btn-outline-secondary" type="button" id="checkNickNameBtn">중복확인</button>
+						</div>
+
+						<div class="d-none form-text text-primary" id="availableNickNameMessage">
+							<i class="fa-solid fa-check"></i>
+							사용 가능한 별명입니다.
+						</div>
+						<div class="d-none form-text text-danger" id="notAvailableNickNameMessage">
+							<i class="fa-solid fa-triangle-exclamation"></i>
+							사용 불가능한 별명입니다.
+						</div>
+
 					</div>
 					<div class="mb-3">
 						<label class="form-label" for="inputEmail"> 이메일 </label>
-						<input id="inputEmail" class="form-control" type="email" name="email" value="${member.email }" />
+						<div class="input-group">
+							<input id="inputEmail" class="form-control" type="email" name="email" value="${member.email }" />
+							<button class="btn btn-outline-secondary" type="button" id="checkEmailBtn">중복확인</button>
+						</div>
 					</div>
 
-					<button id="modifyButton" type="button" data-bs-toggle="modal" data-bs-target="#confirmModal" class="btn btn-primary disabled">수정</button>
+					<div class="d-none form-text text-primary" id="availableEmailMessage">
+						<i class="fa-solid fa-check"></i>
+						사용 가능한 이메일입니다.
+					</div>
+					<div class="d-none form-text text-danger" id="notAvailableEmailMessage">
+						<i class="fa-solid fa-triangle-exclamation"></i>
+						사용 불가능한 이메일입니다.
+					</div>
+
+
+					<button disabled id="modifyButton" type="button" data-bs-toggle="modal" data-bs-target="#confirmModal" class="btn btn-primary">수정</button>
 				</form>
 
 			</div>
@@ -87,21 +110,11 @@
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	
+
 	<script src="/js/member/modify.js"></script>
-		
+
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
 
 
 
