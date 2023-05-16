@@ -5,14 +5,17 @@
 <mapper namespace="com.example.demo.mapper.BoardMapper">
 
 	<resultMap type="com.example.demo.domain.Board" id="boardResultMap">
-		<id column="id" property="id"/>
-		<result column="title" property="title"/>
-		<result column="body" property="body"/>
-		<result column="inserted" property="inserted"/>
-		<result column="writer" property="writer"/>
+		<id column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="body" property="body" />
+		<result column="inserted" property="inserted" />
+		<result column="writer" property="writer" />
+		<result column="likeCount" property="likeCount"></result>
 		<collection property="fileName" ofType="string">
 			<result column="fileName"/>
 		</collection>
 	</resultMap>
 
 </mapper>
+
+

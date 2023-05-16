@@ -19,11 +19,12 @@
 	<div class="container-lg">
 		<h1>게시물 목록</h1>
 		<!-- table.table>thead>tr>th*4^^tbody -->
-		<!-- 새로작성된 코드 변경된 코드!!! -->
+		<!-- 새로작성된 코드 변경된 코드!!!  -->
 		<table class="table">
 			<thead>
 				<tr>
 					<th>#</th>
+					<th><i class="fa-solid fa-heart"></i></th>
 					<th>제목</th>
 					<th>작성자</th>
 					<th>작성일시</th>
@@ -33,14 +34,17 @@
 				<c:forEach items="${boardList }" var="board">
 					<tr>
 						<td>${board.id }</td>
+						<td>${board.likeCount }</td>
 						<td>
 							<a href="/id/${board.id }"> ${board.title } </a>
 							
 							<c:if test="${board.fileCount > 0 }">
-							<span class="badge rounded-pill text-bg-info">
-							<i class="fa-regular fa-images"></i>
-							${board.fileCount }</span>
+								<span class="badge rounded-pill text-bg-info">
+									<i class="fa-regular fa-images"></i>
+									${board.fileCount }
+								</span>
 							</c:if>
+							
 						</td>
 						<td>${board.writer }</td>
 						<td>${board.inserted }</td>
@@ -54,41 +58,27 @@
 		<div class="row">
 			<nav aria-label="Page navigation example">
 				<ul class="pagination justify-content-center">
-				
-				<!-- 맨앞 버튼 -->
-					<c:if test="${pageInfo.currentPageNum gt 1 }">
-						<my:pageItem pageNum="${page=1 }" >
-						<i class="fa-solid fa-backward"></i>
-						</my:pageItem>
-					</c:if>
-						
+
 					<!-- 이전 버튼 -->
 					<c:if test="${pageInfo.currentPageNum gt 1 }">
-						<my:pageItem pageNum = "${pageInfo.currentPageNum - 1 }">
-							<i class="fa-solid fa-caret-left"></i>
+						<my:pageItem pageNum="${pageInfo.currentPageNum - 1 }">
+							<i class="fa-solid fa-angle-left"></i>
 						</my:pageItem>
 					</c:if>
 
 					<c:forEach begin="${pageInfo.leftPageNum }" end="${pageInfo.rightPageNum }" var="pageNum">
 						<my:pageItem pageNum="${pageNum }">
-								${pageNum }
+							${pageNum }
 						</my:pageItem>
 					</c:forEach>
 
 					<!-- 다음 버튼 -->
 					<c:if test="${pageInfo.currentPageNum lt pageInfo.lastPageNum }">
+						<%-- 페이지 번호 : ${pageInfo.currentPageNum + 1 } --%>
 						<my:pageItem pageNum="${pageInfo.currentPageNum + 1 }">
-							<i class="fa-solid fa-caret-right"></i>
+							<i class="fa-solid fa-angle-right"></i>
 						</my:pageItem>
 					
-						
-					</c:if>
-					
-						<!-- 맨뒤 버튼 -->
-					<c:if test="${pageInfo.currentPageNum lt pageInfo.lastPageNum }">
-						<my:pageItem pageNum="${page = pageInfo.lastPageNum }" >
-							<i class="fa-solid fa-forward"></i>
-						</my:pageItem>
 					</c:if>
 
 				</ul>
